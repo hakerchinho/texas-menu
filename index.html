@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кафе ТЕХАС — Электронное меню</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #c59b27;
+            --text-color: #e0e0e0;
+            --text-title: #ffffff;
+            --whatsapp-color: #25D366;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 100px;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: #aaa;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .categories-container {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            padding: 15px 10px;
+            z-index: 100;
+            border-bottom: 1px solid #2d2d2d;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 8px;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background-color: #1a1a1a;
+            color: var(--text-color);
+            border: 1px solid #3d3d3d;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn.active {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            border-color: var(--accent-color);
+        }
+
+        .menu-section {
+            padding: 25px 15px 10px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media(min-width: 768px) {
+            .menu-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border: 1px solid #2d2d2d;
+            border-radius: 6px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-title);
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            margin-bottom: 12px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .option-btn {
+            background-color: #2a2a2a;
+            color: #bbb;
+            border: 1px solid #444;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .option-btn.selected {
+            background-color: #443410;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1px solid #2d2d2d;
+        }
+
+        .item-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-top: 2px solid var(--accent-color);
+            z-index: 200;
+        }
+
+        .bar-total-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .view-cart-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 300;
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .cart-content {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 25px 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .close-cart {
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cart-items-list {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #2d2d2d;
+        }
+
+        .cart-item-info {
+            width: 50%;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .cart-item-option {
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: var(--accent-color);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+
+        .table-input {
+            width: 100%;
+            padding: 12px;
+            background-color: #121212;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .table-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .checkout-btn {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TEXAC</h1>
+        <p>Кафе</p>
+    </header>
+
+    <div class="categories-container" id="nav-cats">
+        <!-- Кнопки категорий сгенерируются автоматически -->
+    </div>
+
+    <div id="menu-sections-container">
+        <!-- Блоки меню сгенерируются автоматически -->
+    </div>
+
+    <div class="bottom-bar">
+        <div>
+            <div style="font-size: 0.8rem; color: #888;">Сумма заказа:</div>
+            <div class="bar-total-price" id="bar-total-price">0 р</div>
+        </div>
+        <button class="view-cart-btn" onclick="toggleCart(true)">Корзина (<span id="bar-cart-count">0</span>)</button>
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Ваш выбор</h2>
+                <button class="close-cart" onclick="toggleCart(false)">✕</button>
+            </div>
+            <div class="cart-items-list" id="cartItemsList">
+                <p style="color: #888; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>
+            </div>
+            
+            <div class="input-group">
+                <label for="tableNumber">Укажите номер стола или «Самовывоз» / «Доставка»:</label>
+                <input type="text" id="tableNumber" class="table-input" placeholder="Например: Стол №3">
+            </div>
+
+            <button class="checkout-btn" onclick="sendToWhatsApp()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.003 5.256 5.264 0 11.73 0c3.133.001 6.077 1.221 8.291 3.437 2.214 2.215 3.431 5.159 3.43 8.295-.004 6.474-5.266 11.732-11.73 11.732-2.004-.001-3.974-.515-5.727-1.493L0 24zm6.59-4.717c1.657.983 3.284 1.503 4.883 1.504 5.305 0 9.622-4.312 9.625-9.615.002-2.569-1-4.985-2.817-6.804-1.817-1.818-4.236-2.82-6.812-2.822-5.31 0-9.625 4.313-9.628 9.616-.001 1.7.464 3.356 1.346 4.81l-.997 3.642 3.733-.979zM16.9 13.79c-.283-.143-1.68-.83-1.94-.924-.26-.096-.45-.143-.64.143-.19.285-.735.925-.9 1.114-.167.188-.333.213-.617.072-.284-.143-1.2-.442-2.285-1.41-.844-.753-1.413-1.683-1.578-1.97-.165-.283-.018-.435.124-.576.128-.126.284-.333.426-.5.143-.165.19-.283.284-.47.095-.19.047-.355-.024-.5-.07-.143-.64-1.542-.876-2.11-.23-.553-.464-.477-.64-.486-.164-.008-.353-.01-.542-.01-.19 0-.498.07-.758.354-.26.285-.995.973-.995 2.374 0 1.4 1.018 2.75 1.16 2.94.143.189 2.005 3.06 4.857 4.292.68.293 1.21.468 1.62.598.683.217 1.3.187 1.79.114.545-.08 1.68-.687 1.917-1.35.237-.664.237-1.233.166-1.35-.07-.117-.26-.188-.543-.33z"/></svg>
+                Отправить заказ в WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUMBER = "79672173333";
+
+        // База данных меню из ваших изображений
+        const menuData = {
+            pizza: {
+                title: "🍕 Пицца",
+                items: [
+                    { name: "Пицца Ассорти", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Куриная", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Мясная", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Пепперони", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Грибная", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Сырная", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Четыре сыра", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Четыре сезона", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Маргарита", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Цезарь", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Стрипс", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Жульен", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] },
+                    { name: "Пицца Техас", options: [{ n: "Стандарт", p: 400 }, { n: "Большая", p: 450 }] }
+                ]
+            },
+            sushi: {
+                title: "🍣 Суши и Роллы",
+                items: [
+                    { name: "Креветки темпура", options: [{ n: "6 шт", p: 450 }, { n: "9 шт", p: 680 }] },
+                    { name: "Бешеный лосось", price: 350 },
+                    { name: "Горячий шик", price: 350 },
+                    { name: "Филадельфия", price: 380 },
+                    { name: "Красный дракон", price: 350 },
+                    { name: "Коготь дракона", price: 380 },
+                    { name: "Американо", price: 350 },
+                    { name: "Цунами", price: 350 },
+                    { name: "Сэндвич суши", price: 350 },
+                    { name: "Цезарь темпура", price: 350 },
+                    { name: "Запеченные роллы", price: 350 },
+                    { name: "Калифорния с крабом", price: 300 },
+                    { name: "Калифорния с лососем", price: 350 },
+                    { name: "Калифорния в кунжуте", price: 300 },
+                    { name: "Роллы с крабом", price: 250 },
+                    { name: "Роллы с лососем", price: 280 }
+                ]
+            },
+            national: {
+                title: "🍲 Национальная кухня",
+                items: [
+                    { name: "Жижиг галнаш (ассорти)", desc: "Чесночный / Луковый соус", price: 700 },
+                    { name: "Тонкий хинкал", desc: "Томатный / Чесночный соус", price: 700 },
+                    { name: "Аварский хинкал", desc: "Томатный / Чесночный соус", price: 700 },
+                    { name: "Котам галнаш", desc: "Чесночный / Луковый соус", price: 600 },
+                    { name: "Баар галнаш", desc: "Чесночный / Луковый соус", price: 750 },
+                    { name: "Баранья голова с галушками", desc: "Чесночный / Луковый соус", price: 3000 },
+                    { name: "Сушеное мясо с галушками", price: 800 },
+                    { name: "Ч1епалг", desc: "с луком", price: 150 },
+                    { name: "Хингал", price: 150 },
+                    { name: "Чуду с мясом / с творогом и сыром", price: 200 },
+                    { name: "Чебуреки с мясом", price: 120 }
+                ]
+            },
+            fastfood: {
+                title: "🍔 Фаст фуд",
+                items: [
+                    { name: "Бургер говяжий / куриный", price: 150 },
+                    { name: "Чизбургер говяжий / куриный", price: 150 },
+                    { name: "Хот-дог", price: 120 },
+                    { name: "Кинкер", price: 200 },
+                    { name: "Клаб-сэндвич", price: 400 },
+                    { name: "Донар (куриный)", price: 200 },
+                    { name: "Гиро на тарелке", price: 350 },
+                    { name: "Шаурма (острая)", options: [{ n: "Обычная", p: 200 }, { n: "Большая", p: 250 }] },
+                    { name: "Шаурма в кляре", options: [{ n: "Обычная", p: 300 }, { n: "Большая", p: 350 }] },
+                    { name: "Крылышки", options: [{ n: "6 шт", p: 290 }, { n: "9 шт", p: 420 }, { n: "12 шт", p: 540 }, { n: "25 шт", p: 1050 }] },
+                    { name: "Наггетсы", options: [{ n: "6 шт", p: 160 }, { n: "9 шт", p: 220 }, { n: "12 шт", p: 290 }] },
+                    { name: "Стрипсы", options: [{ n: "6 шт", p: 360 }, { n: "9 шт", p: 520 }, { n: "12 шт", p: 650 }] },
+                    { name: "Картофель Фри", options: [{ n: "Порция 1", p: 150 }, { n: "Порция 2", p: 180 }] },
+                    { name: "По-деревенски", options: [{ n: "Порция 1", p: 150 }, { n: "Порция 2", p: 200 }] }
+                ]
+            },
+            mangal: {
+                title: "🔥 Мангал и Соусы",
+                items: [
+                    { name: "Курица на углях", options: [{ n: "Порция", p: 300 }, { n: "Целая", p: 800 }] },
+                    { name: "Стейк (фри, по-деревенски)", options: [{ n: "Вариант 1", p: 800 }, { n: "Вариант 2", p: 900 }, { n: "Вариант 3", p: 1000 }, { n: "Вариант 4", p: 1100 }] },
+                    { name: "Люля-кебаб в лаваше", price: 300 },
+                    { name: "Люля с гарниром (фри, по-деревенски)", price: 650 },
+                    { name: "Фирменный томатный соус", price: 50 },
+                    { name: "Чесночный соус", price: 50 },
+                    { name: "Heinz томатный", price: 50 },
+                    { name: "Heinz сырный", price: 50 },
+                    { name: "Лаваш", price: 30 }
+                ]
+            }
+        };
+
+        let cart = {};
+
+        // Генерация интерфейса
+        function initMenu() {
+            const nav = document.getElementById('nav-cats');
+            const container = document.getElementById('menu-sections-container');
+            let isFirst = true;
+
+            for (let catKey in menuData) {
+                const cat = menuData[catKey];
+                
+                // Кнопки навигации
+                const btn = document.createElement('button');
+                btn.className = `category-btn ${isFirst ? 'active' : ''}`;
+                btn.innerText = cat.title;
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(catKey).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                };
+                nav.appendChild(btn);
+
+                // Секции блюд
+                const section = document.createElement('section');
+                section.id = catKey;
+                section.className = 'menu-section';
+                
+                let html = `<h2 class="section-title">${cat.title}</h2><div class="menu-grid">`;
+                
+                cat.items.forEach((item, index) => {
+                    const itemId = `${catKey}_${index}`;
+                    let priceHtml = '';
+                    let optionsHtml = '';
+
+                    if (item.options) {
+                        priceHtml = `<span class="item-price" id="price_${itemId}">${item.options[0].p} р</span>`;
+                        optionsHtml = `<div class="options-container">`;
+                        item.options.forEach((opt, oIdx) => {
+                            optionsHtml += `<button class="option-btn ${oIdx === 0 ? 'selected' : ''}" onclick="selectOption('${itemId}', '${opt.n}', ${opt.p}, this)">${opt.n}</button>`;
+                        });
+                        optionsHtml += `</div>`;
+                    } else {
+                        priceHtml = `<span class="item-price">${item.price} р</span>`;
+                    }
+
+                    html += `
+                        <div class="menu-item">
+                            <div>
+                                <div class="item-header">
+                                    <div class="item-title">${item.name}</div>
+                                </div>
+                                ${item.desc ? `<div class="item-desc">${item.desc}</div>` : ''}
+                                ${optionsHtml}
+                            </div>
+                            <div class="item-bottom">
+                                ${priceHtml}
+                                <button class="add-to-cart-btn" onclick="addToCart('${itemId}')">➕</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                section.innerHTML = html;
+                container.appendChild(section);
+                
+                isFirst = false;
+            }
+        }
+
+        // Хранилище выбранных опций для товаров со списками цен
+        let selectedOptions = {};
+
+        function selectOption(itemId, optName, price, btnElement) {
+            selectedOptions[itemId] = { name: optName, price: price };
+            document.getElementById(`price_${itemId}`).innerText = price + ' р';
+            
+            // Смена стилей кнопок выбора
+            const parent = btnElement.parentElement;
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            btnElement.classList.add('selected');
+        }
+
+        function addToCart(itemId) {
+            const parts = itemId.split('_');
+            const catKey = parts[0];
+            const itemIdx = parseInt(parts[1]);
+            const item = menuData[catKey].items[itemIdx];
+
+            let finalName = item.name;
+            let finalPrice = item.price;
+
+            if (item.options) {
+                const sel = selectedOptions[itemId] || { name: item.options[0].n, price: item.options[0].p };
+                finalName = `${item.name} (${sel.name})`;
+                finalPrice = sel.price;
+            }
+
+            const cartKey = finalName;
+
+            if (cart[cartKey]) {
+                cart[cartKey].qty += 1;
+            } else {
+                cart[cartKey] = { price: finalPrice, qty: 1 };
+            }
+            updateCartUI();
+        }
+
+        function changeQty(name, amount) {
+            if (cart[name]) {
+                cart[name].qty += amount;
+                if (cart[name].qty <= 0) delete cart[name];
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            let total = 0;
+            let count = 0;
+            const list = document.getElementById('cartItemsList');
+            list.innerHTML = '';
+
+            const keys = Object.keys(cart);
+            if (keys.length === 0) {
+                list.innerHTML = '<p style="color: #888; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>';
+            } else {
+                keys.forEach(name => {
+                    const item = cart[name];
+                    total += item.price * item.qty;
+                    count += item.qty;
+
+                    const row = document.createElement('div');
+                    row.className = 'cart-item';
+                    row.innerHTML = `
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${name}</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="quantity-btn" onclick="changeQty('${name}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="quantity-btn" onclick="changeQty('${name}', 1)">+</button>
+                        </div>
+                        <div class="cart-item-price">${item.price * item.qty} р</div>
+                    `;
+                    list.appendChild(row);
+                });
+            }
+
+            document.getElementById('bar-total-price').innerText = total + ' р';
+            document.getElementById('bar-cart-count').innerText = count;
+        }
+
+        function toggleCart(show) {
+            document.getElementById('cartModal').style.display = show ? 'flex' : 'none';
+        }
+
+        function sendToWhatsApp() {
+            const keys = Object.keys(cart);
+            if (keys.length === 0) {
+                alert("Ваша корзина пуста!");
+                return;
+            }
+
+            const table = document.getElementById('tableNumber').value.trim() || "Не указан";
+            
+            let text = `*Новый заказ в кафе ТЕХАС!* \n\n`;
+            text += `📍 *Где принять:* ${table}\n`;
+            text += `---------------------------\n`;
+
+            let total = 0;
+            keys.forEach(name => {
+                const item = cart[name];
+                text += `• *${name}* x${item.qty} — ${item.price * item.qty} р\n`;
+                total += item.price * item.qty;
+            });
+
+            text += `---------------------------\n`;
+            text += `💵 *Итого к оплате:* *${total} р*`;
+
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        window.onload = initMenu;
+    </script>
+</body>
+</html>
