@@ -2,12 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Кафе ТЕХАС — Электронное меню</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
+            --bg-color: #0f0f0f;
+            --card-bg: #161616;
             --accent-color: #c59b27;
             --text-color: #e0e0e0;
             --text-title: #ffffff;
@@ -18,51 +18,56 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Georgia', serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 100px;
+            padding-bottom: 90px;
+            content-visibility: auto;
         }
 
         header {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
             text-align: center;
-            padding: 50px 20px;
-            border-bottom: 2px solid var(--accent-color);
+            padding: 40px 20px;
+            border-bottom: 3px solid var(--accent-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         header h1 {
-            font-size: 2.8rem;
+            font-size: 3rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             color: var(--accent-color);
             margin-bottom: 5px;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
         }
 
         header p {
-            color: #aaa;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            color: #888;
+            font-size: 1rem;
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
 
         .categories-container {
             position: sticky;
             top: 0;
-            background-color: var(--bg-color);
-            padding: 15px 10px;
+            background-color: rgba(15, 15, 15, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            padding: 12px 8px;
             z-index: 100;
-            border-bottom: 1px solid #2d2d2d;
+            border-bottom: 1px solid #222;
             overflow-x: auto;
             white-space: nowrap;
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            scrollbar-width: none;
         }
 
         .categories-container::-webkit-scrollbar {
@@ -71,39 +76,39 @@
 
         .category-btn {
             background-color: #1a1a1a;
-            color: var(--text-color);
-            border: 1px solid #3d3d3d;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            color: #aaa;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .category-btn.active {
             background-color: var(--accent-color);
             color: #000;
-            font-weight: bold;
             border-color: var(--accent-color);
         }
 
         .menu-section {
-            padding: 25px 15px 10px;
+            padding: 20px 12px 5px;
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--accent-color);
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
         }
 
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
         @media(min-width: 768px) {
@@ -112,9 +117,9 @@
 
         .menu-item {
             background-color: var(--card-bg);
-            border: 1px solid #2d2d2d;
-            border-radius: 6px;
-            padding: 15px;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -125,41 +130,42 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .item-title {
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: 1.15rem;
+            font-weight: 700;
             color: var(--text-title);
         }
 
         .item-desc {
-            font-size: 0.9rem;
-            color: #888;
-            font-style: italic;
-            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
 
         .options-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
 
         .option-btn {
-            background-color: #2a2a2a;
-            color: #bbb;
-            border: 1px solid #444;
-            padding: 5px 10px;
-            font-size: 0.85rem;
+            background-color: #222;
+            color: #999;
+            border: 1px solid #333;
+            padding: 4px 10px;
+            font-size: 0.8rem;
             border-radius: 4px;
             cursor: pointer;
+            font-weight: 600;
         }
 
         .option-btn.selected {
-            background-color: #443410;
+            background-color: #3a2e0d;
             color: var(--accent-color);
             border-color: var(--accent-color);
         }
@@ -169,13 +175,13 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
-            padding-top: 10px;
-            border-top: 1px solid #2d2d2d;
+            padding-top: 8px;
+            border-top: 1px solid #222;
         }
 
         .item-price {
-            font-size: 1.25rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            font-weight: 800;
             color: var(--accent-color);
         }
 
@@ -183,9 +189,10 @@
             background-color: var(--accent-color);
             color: #000;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 6px 14px;
+            border-radius: 6px;
             font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
         }
 
@@ -198,14 +205,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border-top: 2px solid var(--accent-color);
             z-index: 200;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.6);
         }
 
         .bar-total-price {
-            font-size: 1.4rem;
-            font-weight: bold;
+            font-size: 1.3rem;
+            font-weight: 800;
             color: var(--accent-color);
         }
 
@@ -213,10 +221,10 @@
             background-color: var(--accent-color);
             color: #000;
             border: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
         }
 
@@ -226,7 +234,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.85);
+            background-color: rgba(0,0,0,0.8);
             z-index: 300;
             display: none;
             justify-content: center;
@@ -236,11 +244,11 @@
         .cart-content {
             background-color: var(--card-bg);
             width: 100%;
-            max-width: 600px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            padding: 25px 20px;
-            max-height: 85vh;
+            max-width: 550px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            padding: 20px;
+            max-height: 80vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -250,13 +258,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #333;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #222;
             padding-bottom: 10px;
         }
 
         .close-cart {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             background: none;
             border: none;
             color: white;
@@ -264,15 +272,15 @@
         }
 
         .cart-items-list {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2d2d2d;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
         }
 
         .cart-item-info {
@@ -280,58 +288,55 @@
         }
 
         .cart-item-title {
-            font-weight: bold;
+            font-weight: 600;
             color: #fff;
-        }
-
-        .cart-item-option {
-            font-size: 0.85rem;
-            color: #888;
+            font-size: 0.95rem;
         }
 
         .cart-item-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .quantity-btn {
-            background-color: #333;
+            background-color: #252525;
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 4px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
         }
 
         .cart-item-price {
-            font-weight: bold;
+            font-weight: 700;
             color: var(--accent-color);
-            min-width: 80px;
+            min-width: 70px;
             text-align: right;
+            font-size: 0.95rem;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
-            font-size: 0.9rem;
-            color: #aaa;
+            font-size: 0.85rem;
+            color: #888;
             margin-bottom: 6px;
         }
 
         .table-input {
             width: 100%;
-            padding: 12px;
-            background-color: #121212;
-            border: 1px solid #444;
-            border-radius: 4px;
+            padding: 10px;
+            background-color: #0f0f0f;
+            border: 1px solid #333;
+            border-radius: 6px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .table-input:focus {
@@ -343,16 +348,15 @@
             background-color: var(--whatsapp-color);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
-            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
     </style>
 </head>
@@ -363,17 +367,12 @@
         <p>Кафе</p>
     </header>
 
-    <div class="categories-container" id="nav-cats">
-        <!-- Кнопки категорий сгенерируются автоматически -->
-    </div>
-
-    <div id="menu-sections-container">
-        <!-- Блоки меню сгенерируются автоматически -->
-    </div>
+    <div class="categories-container" id="nav-cats"></div>
+    <div id="menu-sections-container"></div>
 
     <div class="bottom-bar">
         <div>
-            <div style="font-size: 0.8rem; color: #888;">Сумма заказа:</div>
+            <div style="font-size: 0.75rem; color: #666;">Сумма:</div>
             <div class="bar-total-price" id="bar-total-price">0 р</div>
         </div>
         <button class="view-cart-btn" onclick="toggleCart(true)">Корзина (<span id="bar-cart-count">0</span>)</button>
@@ -386,16 +385,14 @@
                 <button class="close-cart" onclick="toggleCart(false)">✕</button>
             </div>
             <div class="cart-items-list" id="cartItemsList">
-                <p style="color: #888; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>
+                <p style="color: #666; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>
             </div>
-            
             <div class="input-group">
-                <label for="tableNumber">Укажите номер стола или «Самовывоз» / «Доставка»:</label>
+                <label for="tableNumber">Номер стола / Самовывоз / Доставка:</label>
                 <input type="text" id="tableNumber" class="table-input" placeholder="Например: Стол №3">
             </div>
-
             <button class="checkout-btn" onclick="sendToWhatsApp()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.003 5.256 5.264 0 11.73 0c3.133.001 6.077 1.221 8.291 3.437 2.214 2.215 3.431 5.159 3.43 8.295-.004 6.474-5.266 11.732-11.73 11.732-2.004-.001-3.974-.515-5.727-1.493L0 24zm6.59-4.717c1.657.983 3.284 1.503 4.883 1.504 5.305 0 9.622-4.312 9.625-9.615.002-2.569-1-4.985-2.817-6.804-1.817-1.818-4.236-2.82-6.812-2.822-5.31 0-9.625 4.313-9.628 9.616-.001 1.7.464 3.356 1.346 4.81l-.997 3.642 3.733-.979zM16.9 13.79c-.283-.143-1.68-.83-1.94-.924-.26-.096-.45-.143-.64.143-.19.285-.735.925-.9 1.114-.167.188-.333.213-.617.072-.284-.143-1.2-.442-2.285-1.41-.844-.753-1.413-1.683-1.578-1.97-.165-.283-.018-.435.124-.576.128-.126.284-.333.426-.5.143-.165.19-.283.284-.47.095-.19.047-.355-.024-.5-.07-.143-.64-1.542-.876-2.11-.23-.553-.464-.477-.64-.486-.164-.008-.353-.01-.542-.01-.19 0-.498.07-.758.354-.26.285-.995.973-.995 2.374 0 1.4 1.018 2.75 1.16 2.94.143.189 2.005 3.06 4.857 4.292.68.293 1.21.468 1.62.598.683.217 1.3.187 1.79.114.545-.08 1.68-.687 1.917-1.35.237-.664.237-1.233.166-1.35-.07-.117-.26-.188-.543-.33z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.003 5.256 5.264 0 11.73 0c3.133.001 6.077 1.221 8.291 3.437 2.214 2.215 3.431 5.159 3.43 8.295-.004 6.474-5.266 11.732-11.73 11.732-2.004-.001-3.974-.515-5.727-1.493L0 24zm6.59-4.717c1.657.983 3.284 1.503 4.883 1.504 5.305 0 9.622-4.312 9.625-9.615.002-2.569-1-4.985-2.817-6.804-1.817-1.818-4.236-2.82-6.812-2.822-5.31 0-9.625 4.313-9.628 9.616-.001 1.7.464 3.356 1.346 4.81l-.997 3.642 3.733-.979zM16.9 13.79c-.283-.143-1.68-.83-1.94-.924-.26-.096-.45-.143-.64.143-.19.285-.735.925-.9 1.114-.167.188-.333.213-.617.072-.284-.143-1.2-.442-2.285-1.41-.844-.753-1.413-1.683-1.578-1.97-.165-.283-.018-.435.124-.576.128-.126.284-.333.426-.5.143-.165.19-.283.284-.47.095-.19.047-.355-.024-.5-.07-.143-.64-1.542-.876-2.11-.23-.553-.464-.477-.64-.486-.164-.008-.353-.01-.542-.01-.19 0-.498.07-.758.354-.26.285-.995.973-.995 2.374 0 1.4 1.018 2.75 1.16 2.94.143.189 2.005 3.06 4.857 4.292.68.293 1.21.468 1.62.598.683.217 1.3.187 1.79.114.545-.08 1.68-.687 1.917-1.35.237-.664.237-1.233.166-1.35-.07-.117-.26-.188-.543-.33z"/></svg>
                 Отправить заказ в WhatsApp
             </button>
         </div>
@@ -404,7 +401,6 @@
     <script>
         const WHATSAPP_NUMBER = "79672173333";
 
-        // База данных меню из ваших изображений
         const menuData = {
             pizza: {
                 title: "🍕 Пицца",
@@ -484,9 +480,9 @@
                 title: "🔥 Мангал и Соусы",
                 items: [
                     { name: "Курица на углях", options: [{ n: "Порция", p: 300 }, { n: "Целая", p: 800 }] },
-                    { name: "Стейк (фри, по-деревенски)", options: [{ n: "Вариант 1", p: 800 }, { n: "Вариант 2", p: 900 }, { n: "Вариант 3", p: 1000 }, { n: "Вариант 4", p: 1100 }] },
+                    { name: "Стейк", options: [{ n: "Вариант 1", p: 800 }, { n: "Вариант 2", p: 900 }, { n: "Вариант 3", p: 1000 }, { n: "Вариант 4", p: 1100 }] },
                     { name: "Люля-кебаб в лаваше", price: 300 },
-                    { name: "Люля с гарниром (фри, по-деревенски)", price: 650 },
+                    { name: "Люля с гарниром", price: 650 },
                     { name: "Фирменный томатный соус", price: 50 },
                     { name: "Чесночный соус", price: 50 },
                     { name: "Heinz томатный", price: 50 },
@@ -497,8 +493,8 @@
         };
 
         let cart = {};
+        let selectedOptions = {};
 
-        // Генерация интерфейса
         function initMenu() {
             const nav = document.getElementById('nav-cats');
             const container = document.getElementById('menu-sections-container');
@@ -507,18 +503,16 @@
             for (let catKey in menuData) {
                 const cat = menuData[catKey];
                 
-                // Кнопки навигации
                 const btn = document.createElement('button');
                 btn.className = `category-btn ${isFirst ? 'active' : ''}`;
-                btn.innerText = cat.title;
-                btn.onclick = (e) => {
+                btn.innerText = cat.title.split(' ')[1] || cat.title; 
+                btn.onclick = () => {
                     document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     document.getElementById(catKey).scrollIntoView({ behavior: 'smooth', block: 'start' });
                 };
                 nav.appendChild(btn);
 
-                // Секции блюд
                 const section = document.createElement('section');
                 section.id = catKey;
                 section.className = 'menu-section';
@@ -552,7 +546,7 @@
                             </div>
                             <div class="item-bottom">
                                 ${priceHtml}
-                                <button class="add-to-cart-btn" onclick="addToCart('${itemId}')">➕</button>
+                                <button class="add-to-cart-btn" onclick="addToCart('${itemId}')">＋</button>
                             </div>
                         </div>
                     `;
@@ -566,14 +560,9 @@
             }
         }
 
-        // Хранилище выбранных опций для товаров со списками цен
-        let selectedOptions = {};
-
         function selectOption(itemId, optName, price, btnElement) {
             selectedOptions[itemId] = { name: optName, price: price };
             document.getElementById(`price_${itemId}`).innerText = price + ' р';
-            
-            // Смена стилей кнопок выбора
             const parent = btnElement.parentElement;
             parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
             btnElement.classList.add('selected');
@@ -594,12 +583,10 @@
                 finalPrice = sel.price;
             }
 
-            const cartKey = finalName;
-
-            if (cart[cartKey]) {
-                cart[cartKey].qty += 1;
+            if (cart[finalName]) {
+                cart[finalName].qty += 1;
             } else {
-                cart[cartKey] = { price: finalPrice, qty: 1 };
+                cart[finalName] = { price: finalPrice, qty: 1 };
             }
             updateCartUI();
         }
@@ -613,14 +600,13 @@
         }
 
         function updateCartUI() {
-            let total = 0;
-            let count = 0;
+            let total = 0, count = 0;
             const list = document.getElementById('cartItemsList');
             list.innerHTML = '';
 
             const keys = Object.keys(cart);
             if (keys.length === 0) {
-                list.innerHTML = '<p style="color: #888; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>';
+                list.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">Вы еще ничего не выбрали</p>';
             } else {
                 keys.forEach(name => {
                     const item = cart[name];
@@ -630,9 +616,7 @@
                     const row = document.createElement('div');
                     row.className = 'cart-item';
                     row.innerHTML = `
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${name}</div>
-                        </div>
+                        <div class="cart-item-info"><div class="cart-item-title">${name}</div></div>
                         <div class="cart-item-controls">
                             <button class="quantity-btn" onclick="changeQty('${name}', -1)">-</button>
                             <span>${item.qty}</span>
@@ -643,7 +627,6 @@
                     list.appendChild(row);
                 });
             }
-
             document.getElementById('bar-total-price').innerText = total + ' р';
             document.getElementById('bar-cart-count').innerText = count;
         }
@@ -654,16 +637,10 @@
 
         function sendToWhatsApp() {
             const keys = Object.keys(cart);
-            if (keys.length === 0) {
-                alert("Ваша корзина пуста!");
-                return;
-            }
+            if (keys.length === 0) return;
 
             const table = document.getElementById('tableNumber').value.trim() || "Не указан";
-            
-            let text = `*Новый заказ в кафе ТЕХАС!* \n\n`;
-            text += `📍 *Где принять:* ${table}\n`;
-            text += `---------------------------\n`;
+            let text = `*Новый заказ в кафе ТЕХАС!* \n\n📍 *Где принять:* ${table}\n---------------------------\n`;
 
             let total = 0;
             keys.forEach(name => {
@@ -672,11 +649,8 @@
                 total += item.price * item.qty;
             });
 
-            text += `---------------------------\n`;
-            text += `💵 *Итого к оплате:* *${total} р*`;
-
-            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-            window.open(url, '_blank');
+            text += `---------------------------\n💵 *Итого к оплате:* *${total} р*`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
         }
 
         window.onload = initMenu;
