@@ -59,7 +59,7 @@
         .badge-spicy { background: #e74c3c; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 5px; vertical-align: middle; }
 
         .controls { display: flex; flex-direction: column; gap: 8px; margin-top: 5px; }
-        .controls label { font-size: 0.8rem; color: #7f8c8d; margin-bottom: -4px; }
+        .controls label { font-size: 0.8rem; color: #7f8c8d; margin-bottom: -4px; margin-top: 4px; }
         select { padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: #fafafa; font-size: 0.95rem; width: 100%; outline: none; color: var(--dark-color); cursor: pointer; }
         select:focus { border-color: var(--accent-color); }
         
@@ -74,7 +74,7 @@
             font-size: 1rem;
             transition: background 0.2s; 
             text-align: center;
-            margin-top: 5px;
+            margin-top: 8px;
         }
         .btn-add:hover { background: var(--accent-hover); }
         
@@ -141,12 +141,10 @@
 
     <div class="container" id="menu-container"></div>
 
-    <!-- Фиксированная кнопка корзины -->
     <button class="cart-toggle" onclick="toggleCart(true)">
         🛒 Корзина (<span id="cart-count">0</span>) — <span id="cart-total-btn">0 ₽</span>
     </button>
 
-    <!-- Модальное окно корзины -->
     <div class="cart-modal" id="cart-modal" onclick="if(event.target===this) toggleCart(false)">
         <div class="cart-content">
             <div class="cart-header">
@@ -197,7 +195,14 @@
                     { name: "Чуду с мясом", price: 200 },
                     { name: "Чебуреки с мясом", price: 120 },
                     { name: "Котам галнаш", price: 500, sauces: ["Только чесночный соус", "Только луковый соус", "Оба соуса (чесночный + луковый)"] },
-                    { name: "Жижиг галнаш (ассорти)", price: 700, sauces: ["Только чесночный соус", "Только луковый соус", "Оба соуса (чесночный + луковый)"] },
+                    { 
+                        name: "Жижиг галнаш", 
+                        price: 700, 
+                        sauceLabel: "Выберите тип галушек:",
+                        sauces: ["Галушки: Кукурузные", "Галушки: Мучные", "Галушки: Ассорти"],
+                        secondSauceLabel: "Выберите соус:",
+                        secondSauces: ["Только чесночный соус", "Только луковый соус", "Оба соуса (чесночный + луковый)"]
+                    },
                     { name: "Тонкий хинкал", price: 700, sauces: ["Только томатный соус", "Только чесночный соус", "Оба соуса (томатный + чесночный)"] },
                     { name: "Аварский хинкал", price: 700, sauces: ["Только томатный соус", "Только чесночный соус", "Оба соуса (томатный + чесночный)"] },
                     { name: "Баар галнаш", price: 700, sauces: ["Только чесночный соус", "Только луковый соус", "Оба соуса (чесночный + луковый)"] },
@@ -264,7 +269,7 @@
                 items: [
                     { name: "Хот-дог", price: 120 },
                     { name: "Бургер", options: [{ name: "Говяжий", price: 150 }, { name: "Куриный", price: 150 }] },
-                    { name: "Чизбургер", options: [{ name: "Говяжий", price: 150 }, { name: "Куриный", price: 150 }] },
+                    { name: "Чизбургер", options: [{ name: "Говяжий", price: 160 }, { name: "Куриный", price: 160 }] },
                     { name: "Донар (куриный)", price: 200 },
                     { name: "Шаурма (острая)", isSpicy: true, options: [{ name: "Обычная (Острая)", price: 200 }, { name: "Обычная (НЕ острая)", price: 200 }, { name: "Большая (Острая)", price: 250 }, { name: "Большая (НЕ острая)", price: 250 }] },
                     { name: "Кинкер", options: [{ name: "Обычный", price: 250 }, { name: "Острый 🌶️", price: 250 }] },
@@ -301,31 +306,36 @@
             {
                 category: "🍹 Напитки",
                 items: [
+                    {
+                        name: "Прохладительные напитки и соки",
+                        options: [
+                            { name: "Пепси 2л", price: 200 },
+                            { name: "Пепси 1л/0.5л", price: 130 },
+                            { name: "Пепси (банка)", price: 80 },
+                            { name: "Кола 2л", price: 200 },
+                            { name: "Кола 1л", price: 139 },
+                            { name: "Кола (банка)", price: 80 },
+                            { name: "Липтон зеленый", price: 130 },
+                            { name: "Липтон персик", price: 130 },
+                            { name: "Липтон (банка)", price: 100 },
+                            { name: "Зеленокумский лимонад", price: 70 },
+                            { name: "Стом лимонный", price: 80 },
+                            { name: "Кинза (вкус уточнить)", price: 100 },
+                            { name: "Вико сок (вкус уточнить)", price: 150 },
+                            { name: "Простая вода", price: 50 },
+                            { name: "Адреналин большой", price: 150 },
+                            { name: "Адреналин маленький", price: 120 },
+                            { name: "Редбулл большой", price: 250 },
+                            { name: "Редбулл маленький", price: 150 },
+                            { name: "Акапелла большая", price: 180 },
+                            { name: "Акапелла маленькая", price: 120 },
+                            { name: "Болд большой", price: 150 },
+                            { name: "Болд маленький", price: 80 },
+                            { name: "Горилла", price: 100 }
+                        ]
+                    },
                     { name: "Коктейль (Милкшейк)", options: [{ name: "Ванильный вкус", price: 150 }, { name: "Банановый вкус", price: 150 }, { name: "Клубничный вкус", price: 150 }, { name: "Шоколадный вкус", price: 150 }] },
                     { name: "Лимонад", options: [{ name: "Вкус Лагуна", price: 400 }, { name: "Вкус Мохито", price: 400 }, { name: "Вкус Ягодный", price: 400 }, { name: "Вкус Клубничный", price: 400 }] },
-                    { name: "Пепси 2л", price: 200 },
-                    { name: "Пепси 1л/0.5л", price: 130 },
-                    { name: "Пепси (банка)", price: 80 },
-                    { name: "Кола 2л", price: 200 },
-                    { name: "Кола 1л", price: 139 },
-                    { name: "Кола (банка)", price: 80 },
-                    { name: "Липтон зеленый", price: 130 },
-                    { name: "Липтон персик", price: 130 },
-                    { name: "Липтон (банка)", price: 100 },
-                    { name: "Зеленокумский лимонад", price: 70 },
-                    { name: "Стом лимонный", price: 80 },
-                    { name: "Кинза (вкус уточнить)", price: 100 },
-                    { name: "Вико сок (вкус уточнить)", price: 150 },
-                    { name: "Простая вода", price: 50 },
-                    { name: "Адреналин большой", price: 150 },
-                    { name: "Адреналин маленький", price: 120 },
-                    { name: "Редбулл большой", price: 250 },
-                    { name: "Редбулл маленький", price: 150 },
-                    { name: "Акапелла большая", price: 180 },
-                    { name: "Акапелла маленькая", price: 120 },
-                    { name: "Болд большой", price: 150 },
-                    { name: "Болд маленький", price: 80 },
-                    { name: "Горилла", price: 100 },
                     { name: "Чай обычный", price: 50 },
                     { name: "Калмыцкий чай", price: 50 },
                     { name: "Кофе со сливками", price: 50 },
@@ -366,13 +376,25 @@
                 }
 
                 let sauceHtml = '';
+                const lbl1 = item.sauceLabel ? item.sauceLabel : "Выберите соус:";
                 if(item.sauces) {
-                    sauceHtml += `<label>Выберите соус:</label>`;
+                    sauceHtml += `<label>${lbl1}</label>`;
                     sauceHtml += `<select id="sauce-${catIdx}-${itemIdx}">`;
                     item.sauces.forEach(s => {
                         sauceHtml += `<option value="${s}">${s}</option>`;
                     });
                     sauceHtml += `</select>`;
+                }
+
+                let secondSauceHtml = '';
+                if(item.secondSauces) {
+                    const lbl2 = item.secondSauceLabel ? item.secondSauceLabel : "Выберите соус:";
+                    secondSauceHtml += `<label>${lbl2}</label>`;
+                    secondSauceHtml += `<select id="sec-sauce-${catIdx}-${itemIdx}">`;
+                    item.secondSauces.forEach(s => {
+                        secondSauceHtml += `<option value="${s}">${s}</option>`;
+                    });
+                    secondSauceHtml += `</select>`;
                 }
 
                 itemEl.innerHTML = `
@@ -383,6 +405,7 @@
                     <div class="controls">
                         ${optionsHtml}
                         ${sauceHtml}
+                        ${secondSauceHtml}
                         <button class="btn-add" onclick="addToCart(${catIdx}, ${itemIdx})">➕ В корзину</button>
                     </div>
                 `;
@@ -412,6 +435,11 @@
             if(item.sauces) {
                 const selectSauce = document.getElementById(`sauce-${catIdx}-${itemIdx}`);
                 metaInfo.push(selectSauce.value);
+            }
+
+            if(item.secondSauces) {
+                const selectSecSauce = document.getElementById(`sec-sauce-${catIdx}-${itemIdx}`);
+                metaInfo.push(selectSecSauce.value);
             }
 
             const metaStr = metaInfo.join(' | ');
