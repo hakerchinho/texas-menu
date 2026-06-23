@@ -141,10 +141,12 @@
 
     <div class="container" id="menu-container"></div>
 
+    <!-- Фиксированная кнопка корзины -->
     <button class="cart-toggle" onclick="toggleCart(true)">
         🛒 Корзина (<span id="cart-count">0</span>) — <span id="cart-total-btn">0 ₽</span>
     </button>
 
+    <!-- Модальное окно корзины -->
     <div class="cart-modal" id="cart-modal" onclick="if(event.target===this) toggleCart(false)">
         <div class="cart-content">
             <div class="cart-header">
@@ -173,7 +175,7 @@
             {
                 category: "🪵 Мангал",
                 items: [
-                    { name: "Курица на углях", options: [{ name: "Половина курицы", price: 300 }, { name: "Целая курица", price: 800 }] },
+                    { name: "Курица на углях", options: [{ name: "Порция курицы", price: 300 }, { name: "Целая курица", price: 800 }] },
                     { name: "Крылышки на углях", price: 550 },
                     { name: "Шашлык куриный", price: 600 },
                     { name: "Шашлык говядина", price: 700 },
@@ -265,7 +267,7 @@
                     { name: "Чизбургер", options: [{ name: "Говяжий", price: 150 }, { name: "Куриный", price: 150 }] },
                     { name: "Донар (куриный)", price: 200 },
                     { name: "Шаурма (острая)", isSpicy: true, options: [{ name: "Обычная (Острая)", price: 200 }, { name: "Обычная (НЕ острая)", price: 200 }, { name: "Большая (Острая)", price: 250 }, { name: "Большая (НЕ острая)", price: 250 }] },
-                    { name: "Кинкер", price: 250 },
+                    { name: "Кинкер", options: [{ name: "Обычный", price: 250 }, { name: "Острый 🌶️", price: 250 }] },
                     { name: "Шаурма в кляре", options: [{ name: "Обычная", price: 300 }, { name: "Большая", price: 350 }] },
                     { name: "Гиро на тарелке", price: 350 },
                     { name: "Клаб-сэндвич", price: 400 },
@@ -301,6 +303,29 @@
                 items: [
                     { name: "Коктейль (Милкшейк)", options: [{ name: "Ванильный вкус", price: 150 }, { name: "Банановый вкус", price: 150 }, { name: "Клубничный вкус", price: 150 }, { name: "Шоколадный вкус", price: 150 }] },
                     { name: "Лимонад", options: [{ name: "Вкус Лагуна", price: 400 }, { name: "Вкус Мохито", price: 400 }, { name: "Вкус Ягодный", price: 400 }, { name: "Вкус Клубничный", price: 400 }] },
+                    { name: "Пепси 2л", price: 200 },
+                    { name: "Пепси 1л/0.5л", price: 130 },
+                    { name: "Пепси (банка)", price: 80 },
+                    { name: "Кола 2л", price: 200 },
+                    { name: "Кола 1л", price: 139 },
+                    { name: "Кола (банка)", price: 80 },
+                    { name: "Липтон зеленый", price: 130 },
+                    { name: "Липтон персик", price: 130 },
+                    { name: "Липтон (банка)", price: 100 },
+                    { name: "Зеленокумский лимонад", price: 70 },
+                    { name: "Стом лимонный", price: 80 },
+                    { name: "Кинза (вкус уточнить)", price: 100 },
+                    { name: "Вико сок (вкус уточнить)", price: 150 },
+                    { name: "Простая вода", price: 50 },
+                    { name: "Адреналин большой", price: 150 },
+                    { name: "Адреналин маленький", price: 120 },
+                    { name: "Редбулл большой", price: 250 },
+                    { name: "Редбулл маленький", price: 150 },
+                    { name: "Акапелла большая", price: 180 },
+                    { name: "Акапелла маленькая", price: 120 },
+                    { name: "Болд большой", price: 150 },
+                    { name: "Болд маленький", price: 80 },
+                    { name: "Горилла", price: 100 },
                     { name: "Чай обычный", price: 50 },
                     { name: "Калмыцкий чай", price: 50 },
                     { name: "Кофе со сливками", price: 50 },
